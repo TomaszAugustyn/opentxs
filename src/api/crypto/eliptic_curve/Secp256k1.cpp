@@ -57,7 +57,7 @@ std::string uncompress_pubkey(std::string_view compressed_pubkey_sv)
         compressed_pubkey_sv.substr(PUBKEY_PREFIX_LENGTH);
 
     auto const key_prefix =
-        get_pubkey_prefix(compressed_pubkey_sv, PUBKEY_PREFIX_LENGTH);
+        get_prefix(compressed_pubkey_sv, PUBKEY_PREFIX_LENGTH);
 
     if (!is_pubkey_compressed(key_prefix))
         opentxs::LogError()(__func__)(": ")("Compressed pubkey ")(
