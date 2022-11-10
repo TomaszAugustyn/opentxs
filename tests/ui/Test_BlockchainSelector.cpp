@@ -41,7 +41,7 @@ public:
                 make_cb(counter_full_, "Blockchain selector (full)");
 
             if (init) {
-                counter_full_.expected_ = 11;
+                counter_full_.expected_ = 15;
                 init = false;
             }
 
@@ -54,7 +54,7 @@ public:
                 make_cb(counter_main_, "Blockchain selector (main)");
 
             if (init) {
-                counter_main_.expected_ = 6;
+                counter_main_.expected_ = 8;
                 init = false;
             }
 
@@ -67,7 +67,7 @@ public:
                 make_cb(counter_test_, "Blockchain selector (test)");
 
             if (init) {
-                counter_test_.expected_ = 5;
+                counter_test_.expected_ = 7;
                 init = false;
             }
 
@@ -86,12 +86,16 @@ TEST_F(Test_BlockchainSelector, initial_state)
         {"Bitcoin", false, false, Type::Bitcoin},
         {"Bitcoin Cash", false, false, Type::BitcoinCash},
         {"Bitcoin SV", false, false, Type::BitcoinSV},
+        {"Casper", false, false, Type::Casper},
+        {"Ethereum", false, false, Type::Ethereum_frontier},
         {"Litecoin", false, false, Type::Litecoin},
         {"PKT", false, false, Type::PKT},
         {"eCash", false, false, Type::eCash},
         {"Bitcoin (testnet3)", false, true, Type::Bitcoin_testnet3},
         {"Bitcoin Cash (testnet3)", false, true, Type::BitcoinCash_testnet3},
         {"Bitcoin SV (testnet3)", false, true, Type::BitcoinSV_testnet3},
+        {"Casper (testnet)", false, true, Type::Casper_testnet},
+        {"Ethereum cross-client testnet", false, true, Type::Ethereum_ropsten},
         {"Litecoin (testnet4)", false, true, Type::Litecoin_testnet4},
         {"eCash (testnet3)", false, true, Type::eCash_testnet3},
     }};
@@ -99,6 +103,8 @@ TEST_F(Test_BlockchainSelector, initial_state)
         {"Bitcoin", false, false, Type::Bitcoin},
         {"Bitcoin Cash", false, false, Type::BitcoinCash},
         {"Bitcoin SV", false, false, Type::BitcoinSV},
+        {"Casper", false, false, Type::Casper},
+        {"Ethereum", false, false, Type::Ethereum_frontier},
         {"Litecoin", false, false, Type::Litecoin},
         {"PKT", false, false, Type::PKT},
         {"eCash", false, false, Type::eCash},
@@ -107,6 +113,8 @@ TEST_F(Test_BlockchainSelector, initial_state)
         {"Bitcoin (testnet3)", false, true, Type::Bitcoin_testnet3},
         {"Bitcoin Cash (testnet3)", false, true, Type::BitcoinCash_testnet3},
         {"Bitcoin SV (testnet3)", false, true, Type::BitcoinSV_testnet3},
+        {"Casper (testnet)", false, true, Type::Casper_testnet},
+        {"Ethereum cross-client testnet", false, true, Type::Ethereum_ropsten},
         {"Litecoin (testnet4)", false, true, Type::Litecoin_testnet4},
         {"eCash (testnet3)", false, true, Type::eCash_testnet3},
     }};
@@ -141,12 +149,16 @@ TEST_F(Test_BlockchainSelector, disable_disabled)
         {"Bitcoin", false, false, Type::Bitcoin},
         {"Bitcoin Cash", false, false, Type::BitcoinCash},
         {"Bitcoin SV", false, false, Type::BitcoinSV},
+        {"Casper", false, false, Type::Casper},
+        {"Ethereum", false, false, Type::Ethereum_frontier},
         {"Litecoin", false, false, Type::Litecoin},
         {"PKT", false, false, Type::PKT},
         {"eCash", false, false, Type::eCash},
         {"Bitcoin (testnet3)", false, true, Type::Bitcoin_testnet3},
         {"Bitcoin Cash (testnet3)", false, true, Type::BitcoinCash_testnet3},
         {"Bitcoin SV (testnet3)", false, true, Type::BitcoinSV_testnet3},
+        {"Casper (testnet)", false, true, Type::Casper_testnet},
+        {"Ethereum cross-client testnet", false, true, Type::Ethereum_ropsten},
         {"Litecoin (testnet4)", false, true, Type::Litecoin_testnet4},
         {"eCash (testnet3)", false, true, Type::eCash_testnet3},
     }};
@@ -154,6 +166,8 @@ TEST_F(Test_BlockchainSelector, disable_disabled)
         {"Bitcoin", false, false, Type::Bitcoin},
         {"Bitcoin Cash", false, false, Type::BitcoinCash},
         {"Bitcoin SV", false, false, Type::BitcoinSV},
+        {"Casper", false, false, Type::Casper},
+        {"Ethereum", false, false, Type::Ethereum_frontier},
         {"Litecoin", false, false, Type::Litecoin},
         {"PKT", false, false, Type::PKT},
         {"eCash", false, false, Type::eCash},
@@ -162,6 +176,8 @@ TEST_F(Test_BlockchainSelector, disable_disabled)
         {"Bitcoin (testnet3)", false, true, Type::Bitcoin_testnet3},
         {"Bitcoin Cash (testnet3)", false, true, Type::BitcoinCash_testnet3},
         {"Bitcoin SV (testnet3)", false, true, Type::BitcoinSV_testnet3},
+        {"Casper (testnet)", false, true, Type::Casper_testnet},
+        {"Ethereum cross-client testnet", false, true, Type::Ethereum_ropsten},
         {"Litecoin (testnet4)", false, true, Type::Litecoin_testnet4},
         {"eCash (testnet3)", false, true, Type::eCash_testnet3},
     }};
@@ -196,12 +212,16 @@ TEST_F(Test_BlockchainSelector, enable_disabled)
         {"Bitcoin", true, false, Type::Bitcoin},
         {"Bitcoin Cash", false, false, Type::BitcoinCash},
         {"Bitcoin SV", false, false, Type::BitcoinSV},
+        {"Casper", false, false, Type::Casper},
+        {"Ethereum", false, false, Type::Ethereum_frontier},
         {"Litecoin", false, false, Type::Litecoin},
         {"PKT", false, false, Type::PKT},
         {"eCash", false, false, Type::eCash},
         {"Bitcoin (testnet3)", false, true, Type::Bitcoin_testnet3},
         {"Bitcoin Cash (testnet3)", false, true, Type::BitcoinCash_testnet3},
         {"Bitcoin SV (testnet3)", false, true, Type::BitcoinSV_testnet3},
+        {"Casper (testnet)", false, true, Type::Casper_testnet},
+        {"Ethereum cross-client testnet", false, true, Type::Ethereum_ropsten},
         {"Litecoin (testnet4)", false, true, Type::Litecoin_testnet4},
         {"eCash (testnet3)", false, true, Type::eCash_testnet3},
     }};
@@ -209,6 +229,8 @@ TEST_F(Test_BlockchainSelector, enable_disabled)
         {"Bitcoin", true, false, Type::Bitcoin},
         {"Bitcoin Cash", false, false, Type::BitcoinCash},
         {"Bitcoin SV", false, false, Type::BitcoinSV},
+        {"Casper", false, false, Type::Casper},
+        {"Ethereum", false, false, Type::Ethereum_frontier},
         {"Litecoin", false, false, Type::Litecoin},
         {"PKT", false, false, Type::PKT},
         {"eCash", false, false, Type::eCash},
@@ -217,6 +239,8 @@ TEST_F(Test_BlockchainSelector, enable_disabled)
         {"Bitcoin (testnet3)", false, true, Type::Bitcoin_testnet3},
         {"Bitcoin Cash (testnet3)", false, true, Type::BitcoinCash_testnet3},
         {"Bitcoin SV (testnet3)", false, true, Type::BitcoinSV_testnet3},
+        {"Casper (testnet)", false, true, Type::Casper_testnet},
+        {"Ethereum cross-client testnet", false, true, Type::Ethereum_ropsten},
         {"Litecoin (testnet4)", false, true, Type::Litecoin_testnet4},
         {"eCash (testnet3)", false, true, Type::eCash_testnet3},
     }};
@@ -251,12 +275,16 @@ TEST_F(Test_BlockchainSelector, enable_enabled)
         {"Bitcoin", true, false, Type::Bitcoin},
         {"Bitcoin Cash", false, false, Type::BitcoinCash},
         {"Bitcoin SV", false, false, Type::BitcoinSV},
+        {"Casper", false, false, Type::Casper},
+        {"Ethereum", false, false, Type::Ethereum_frontier},
         {"Litecoin", false, false, Type::Litecoin},
         {"PKT", false, false, Type::PKT},
         {"eCash", false, false, Type::eCash},
         {"Bitcoin (testnet3)", false, true, Type::Bitcoin_testnet3},
         {"Bitcoin Cash (testnet3)", false, true, Type::BitcoinCash_testnet3},
         {"Bitcoin SV (testnet3)", false, true, Type::BitcoinSV_testnet3},
+        {"Casper (testnet)", false, true, Type::Casper_testnet},
+        {"Ethereum cross-client testnet", false, true, Type::Ethereum_ropsten},
         {"Litecoin (testnet4)", false, true, Type::Litecoin_testnet4},
         {"eCash (testnet3)", false, true, Type::eCash_testnet3},
     }};
@@ -264,6 +292,8 @@ TEST_F(Test_BlockchainSelector, enable_enabled)
         {"Bitcoin", true, false, Type::Bitcoin},
         {"Bitcoin Cash", false, false, Type::BitcoinCash},
         {"Bitcoin SV", false, false, Type::BitcoinSV},
+        {"Casper", false, false, Type::Casper},
+        {"Ethereum", false, false, Type::Ethereum_frontier},
         {"Litecoin", false, false, Type::Litecoin},
         {"PKT", false, false, Type::PKT},
         {"eCash", false, false, Type::eCash},
@@ -272,6 +302,8 @@ TEST_F(Test_BlockchainSelector, enable_enabled)
         {"Bitcoin (testnet3)", false, true, Type::Bitcoin_testnet3},
         {"Bitcoin Cash (testnet3)", false, true, Type::BitcoinCash_testnet3},
         {"Bitcoin SV (testnet3)", false, true, Type::BitcoinSV_testnet3},
+        {"Casper (testnet)", false, true, Type::Casper_testnet},
+        {"Ethereum cross-client testnet", false, true, Type::Ethereum_ropsten},
         {"Litecoin (testnet4)", false, true, Type::Litecoin_testnet4},
         {"eCash (testnet3)", false, true, Type::eCash_testnet3},
     }};
@@ -306,12 +338,16 @@ TEST_F(Test_BlockchainSelector, disable_enabled)
         {"Bitcoin", false, false, Type::Bitcoin},
         {"Bitcoin Cash", false, false, Type::BitcoinCash},
         {"Bitcoin SV", false, false, Type::BitcoinSV},
+        {"Casper", false, false, Type::Casper},
+        {"Ethereum", false, false, Type::Ethereum_frontier},
         {"Litecoin", false, false, Type::Litecoin},
         {"PKT", false, false, Type::PKT},
         {"eCash", false, false, Type::eCash},
         {"Bitcoin (testnet3)", false, true, Type::Bitcoin_testnet3},
         {"Bitcoin Cash (testnet3)", false, true, Type::BitcoinCash_testnet3},
         {"Bitcoin SV (testnet3)", false, true, Type::BitcoinSV_testnet3},
+        {"Casper (testnet)", false, true, Type::Casper_testnet},
+        {"Ethereum cross-client testnet", false, true, Type::Ethereum_ropsten},
         {"Litecoin (testnet4)", false, true, Type::Litecoin_testnet4},
         {"eCash (testnet3)", false, true, Type::eCash_testnet3},
     }};
@@ -319,6 +355,8 @@ TEST_F(Test_BlockchainSelector, disable_enabled)
         {"Bitcoin", false, false, Type::Bitcoin},
         {"Bitcoin Cash", false, false, Type::BitcoinCash},
         {"Bitcoin SV", false, false, Type::BitcoinSV},
+        {"Casper", false, false, Type::Casper},
+        {"Ethereum", false, false, Type::Ethereum_frontier},
         {"Litecoin", false, false, Type::Litecoin},
         {"PKT", false, false, Type::PKT},
         {"eCash", false, false, Type::eCash},
@@ -327,6 +365,8 @@ TEST_F(Test_BlockchainSelector, disable_enabled)
         {"Bitcoin (testnet3)", false, true, Type::Bitcoin_testnet3},
         {"Bitcoin Cash (testnet3)", false, true, Type::BitcoinCash_testnet3},
         {"Bitcoin SV (testnet3)", false, true, Type::BitcoinSV_testnet3},
+        {"Casper (testnet)", false, true, Type::Casper_testnet},
+        {"Ethereum cross-client testnet", false, true, Type::Ethereum_ropsten},
         {"Litecoin (testnet4)", false, true, Type::Litecoin_testnet4},
         {"eCash (testnet3)", false, true, Type::eCash_testnet3},
     }};

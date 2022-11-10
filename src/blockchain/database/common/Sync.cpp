@@ -279,7 +279,7 @@ struct Sync::Imp final : private util::MappedFileStorage {
 
         static_assert(checksum_key_.size() == crypto_shorthash_KEYBYTES);
 
-        for (const auto chain : opentxs::blockchain::SupportedChains()) {
+        for (const auto chain : opentxs::blockchain::SupportedChainsFullSync()) {
             import_genesis(chain);
         }
 

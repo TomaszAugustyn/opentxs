@@ -30,6 +30,7 @@
 #include "opentxs/api/network/Asio.hpp"
 #include "opentxs/api/network/Blockchain.hpp"
 #include "opentxs/api/session/Session.hpp"
+#include "opentxs/blockchain/Blockchain.hpp"
 #include "opentxs/blockchain/Types.hpp"
 #include "opentxs/blockchain/p2p/Address.hpp"
 #include "opentxs/core/identifier/Generic.hpp"
@@ -614,7 +615,10 @@ auto PeerManager::Peers::Run() noexcept -> int
     auto ticket = gatekeeper_.get();
 
     if (ticket || invalid_peer_) { return -1; }
-
+    if (opentxs::blockchain::SupportedChainsNoSync().count(chain_)) {
+        LogConsole()(OT_PRETTY_CLASS())("CSPR/ETH chains not supported natively yet").Flush();
+        return false;
+    }
     const auto target = minimum_peers_.load();
 
     if (target > peers_.size()) {

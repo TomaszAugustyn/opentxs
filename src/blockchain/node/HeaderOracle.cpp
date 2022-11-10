@@ -20,6 +20,7 @@
 #include "internal/blockchain/node/Factory.hpp"
 #include "internal/util/LogMacros.hpp"
 #include "internal/util/P0330.hpp"
+#include "opentxs/blockchain/Blockchain.hpp"
 #include "opentxs/blockchain/Types.hpp"
 #include "opentxs/blockchain/bitcoin/Work.hpp"
 #include "opentxs/blockchain/bitcoin/block/Header.hpp"  // IWYU pragma: keep
@@ -59,10 +60,14 @@ HeaderOracle::HeaderOracle(
     , chain_(type)
     , lock_()
 {
-    auto lock = Lock{lock_};
-    const auto best = best_chain(lock);
+    if (opentxs::blockchain::SupportedChainsNoSync().count(chain_)) {
+        LogConsole()(OT_PRETTY_CLASS())("CSPR/ETH chains not supported natively yet").Flush();
+    } else {
+        auto lock = Lock{lock_};
+        const auto best = best_chain(lock);
 
-    OT_ASSERT(0 <= best.height_);
+        OT_ASSERT(0 <= best.height_);
+    }
 }
 
 auto HeaderOracle::Ancestors(
@@ -308,6 +313,10 @@ auto HeaderOracle::apply_checkpoint(
 auto HeaderOracle::best_chain(const Lock& lock) const noexcept
     -> block::Position
 {
+    if (opentxs::blockchain::SupportedChainsNoSync().count(chain_)) {
+        LogConsole()(OT_PRETTY_CLASS())("CSPR/ETH chains not supported natively yet").Flush();
+        return {};
+    }
     return database_.CurrentBest()->Position();
 }
 

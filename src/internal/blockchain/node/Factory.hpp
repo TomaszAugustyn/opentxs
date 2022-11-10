@@ -83,6 +83,13 @@ auto BlockchainNetworkBitcoin(
     const UnallocatedCString& seednode,
     const UnallocatedCString& syncEndpoint) noexcept
     -> std::unique_ptr<blockchain::node::internal::Manager>;
+auto BlockchainNetworkNoSyncSupport(
+    const api::Session& api,
+    const blockchain::Type type,
+    const blockchain::node::internal::Config& config,
+    const UnallocatedCString& seednode,
+    const UnallocatedCString& syncEndpoint) noexcept
+    -> std::unique_ptr<blockchain::node::internal::Manager>;
 auto BlockchainPeerManager(
     const api::Session& api,
     const blockchain::node::internal::Config& config,

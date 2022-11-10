@@ -104,6 +104,7 @@ public:
     virtual auto FilterOracleInternal() noexcept -> internal::FilterOracle& = 0;
     virtual auto Shutdown() noexcept -> std::shared_future<void> = 0;
     virtual auto StartWallet() noexcept -> void = 0;
+    virtual auto StopWallet() noexcept -> void = 0;
 
     ~Manager() override = default;
 };

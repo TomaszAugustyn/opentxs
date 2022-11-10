@@ -379,6 +379,36 @@ auto SupportedChains() noexcept -> const UnallocatedSet<Type>&
     return output;
 }
 
+auto SupportedChainsNoSync() noexcept -> const UnallocatedSet<Type>&
+{
+    static const auto output = [] {
+        auto output = UnallocatedSet<Type>{};
+
+        for (const auto& [chain, data] : params::Chains()) {
+            if (!data.full_sync_support_) { output.emplace(chain); }
+        }
+
+        return output;
+    }();
+
+    return output;
+}
+
+auto SupportedChainsFullSync() noexcept -> const UnallocatedSet<Type>&
+{
+    static const auto output = [] {
+        auto output = UnallocatedSet<Type>{};
+
+        for (const auto& [chain, data] : params::Chains()) {
+            if (data.full_sync_support_) { output.emplace(chain); }
+        }
+
+        return output;
+    }();
+
+    return output;
+}
+
 auto TickerSymbol(const Type type) noexcept -> UnallocatedCString
 {
     return UnallocatedCString{
@@ -533,9 +563,10 @@ auto Chains() noexcept -> const ChainData&
     static const auto data = ChainData{
         {blockchain::Type::Bitcoin,
          {
-             true,
-             false,
-             true,
+             Data::SUPPORTED,
+             Data::FULL_SYNC_SUPPORTED,
+             Data::MAINNET,
+             Data::SEGWIT_SUPPORTED,
              4u,
              opentxs::UnitType::Btc,
              Bip44Type::BITCOIN,
@@ -581,9 +612,10 @@ auto Chains() noexcept -> const ChainData&
          }},
         {blockchain::Type::Bitcoin_testnet3,
          {
-             true,
-             true,
-             true,
+             Data::SUPPORTED,
+             Data::FULL_SYNC_SUPPORTED,
+             Data::TESTNET,
+             Data::SEGWIT_SUPPORTED,
              4u,
              opentxs::UnitType::Tnbtc,
              Bip44Type::TESTNET,
@@ -626,9 +658,10 @@ auto Chains() noexcept -> const ChainData&
          }},
         {blockchain::Type::BitcoinCash,
          {
-             true,
-             false,
-             false,
+             Data::SUPPORTED,
+             Data::FULL_SYNC_SUPPORTED,
+             Data::MAINNET,
+             Data::SEGWIT_NOT_SUPPORTED,
              0,
              opentxs::UnitType::Bch,
              Bip44Type::BITCOINCASH,
@@ -671,9 +704,10 @@ auto Chains() noexcept -> const ChainData&
          }},
         {blockchain::Type::BitcoinCash_testnet3,
          {
-             true,
-             true,
-             false,
+             Data::SUPPORTED,
+             Data::FULL_SYNC_SUPPORTED,
+             Data::TESTNET,
+             Data::SEGWIT_NOT_SUPPORTED,
              0,
              opentxs::UnitType::Tnbch,
              Bip44Type::TESTNET,
@@ -715,9 +749,10 @@ auto Chains() noexcept -> const ChainData&
          }},
         {blockchain::Type::Ethereum_frontier,
          {
-             false,
-             false,
-             false,
+             Data::SUPPORTED,
+             Data::FULL_SYNC_NOT_SUPPORTED,
+             Data::MAINNET,
+             Data::SEGWIT_NOT_SUPPORTED,
              0,
              opentxs::UnitType::Eth,
              Bip44Type::ETHER,
@@ -749,9 +784,10 @@ auto Chains() noexcept -> const ChainData&
          }},
         {blockchain::Type::Ethereum_ropsten,
          {
-             false,
-             true,
-             false,
+             Data::SUPPORTED,
+             Data::FULL_SYNC_NOT_SUPPORTED,
+             Data::TESTNET,
+             Data::SEGWIT_NOT_SUPPORTED,
              0,
              opentxs::UnitType::Ethereum_ropsten,
              Bip44Type::TESTNET,
@@ -781,9 +817,10 @@ auto Chains() noexcept -> const ChainData&
          }},
         {blockchain::Type::Casper,
          {
-             false,
-             false,
-             false,
+             Data::SUPPORTED,
+             Data::FULL_SYNC_NOT_SUPPORTED,
+             Data::MAINNET,
+             Data::SEGWIT_NOT_SUPPORTED,
              0,
              opentxs::UnitType::Cspr,
              Bip44Type::CSPR,
@@ -813,9 +850,10 @@ auto Chains() noexcept -> const ChainData&
          }},
         {blockchain::Type::Casper_testnet,
          {
-             false,
-             true,
-             false,
+             Data::SUPPORTED,
+             Data::FULL_SYNC_NOT_SUPPORTED,
+             Data::TESTNET,
+             Data::SEGWIT_NOT_SUPPORTED,
              0,
              opentxs::UnitType::TnCspr,
              Bip44Type::TESTNET,
@@ -847,9 +885,10 @@ auto Chains() noexcept -> const ChainData&
          }},
         {blockchain::Type::Litecoin,
          {
-             true,
-             false,
-             true,
+             Data::SUPPORTED,
+             Data::FULL_SYNC_SUPPORTED,
+             Data::MAINNET,
+             Data::SEGWIT_SUPPORTED,
              4u,
              opentxs::UnitType::Ltc,
              Bip44Type::LITECOIN,
@@ -892,9 +931,10 @@ auto Chains() noexcept -> const ChainData&
          }},
         {blockchain::Type::Litecoin_testnet4,
          {
-             true,
-             true,
-             true,
+             Data::SUPPORTED,
+             Data::FULL_SYNC_SUPPORTED,
+             Data::TESTNET,
+             Data::SEGWIT_SUPPORTED,
              4u,
              opentxs::UnitType::Tnltx,
              Bip44Type::TESTNET,
@@ -935,9 +975,10 @@ auto Chains() noexcept -> const ChainData&
          }},
         {blockchain::Type::PKT,
          {
-             true,
-             false,
-             true,
+             Data::SUPPORTED,
+             Data::FULL_SYNC_SUPPORTED,
+             Data::MAINNET,
+             Data::SEGWIT_SUPPORTED,
              4u,
              opentxs::UnitType::Pkt,
              Bip44Type::PKT,
@@ -978,9 +1019,10 @@ auto Chains() noexcept -> const ChainData&
          }},
         {blockchain::Type::PKT_testnet,
          {
-             false,
-             true,
-             true,
+             Data::NOT_SUPPORTED,
+             Data::FULL_SYNC_SUPPORTED,
+             Data::TESTNET,
+             Data::SEGWIT_SUPPORTED,
              4u,
              opentxs::UnitType::Tnpkt,
              Bip44Type::TESTNET,
@@ -1020,9 +1062,10 @@ auto Chains() noexcept -> const ChainData&
          }},
         {blockchain::Type::BitcoinSV,
          {
-             true,
-             false,
-             false,
+             Data::SUPPORTED,
+             Data::FULL_SYNC_SUPPORTED,
+             Data::MAINNET,
+             Data::SEGWIT_NOT_SUPPORTED,
              0,
              opentxs::UnitType::Bsv,
              Bip44Type::BITCOINSV,
@@ -1062,9 +1105,10 @@ auto Chains() noexcept -> const ChainData&
          }},
         {blockchain::Type::BitcoinSV_testnet3,
          {
-             true,
-             true,
-             false,
+             Data::SUPPORTED,
+             Data::FULL_SYNC_SUPPORTED,
+             Data::TESTNET,
+             Data::SEGWIT_NOT_SUPPORTED,
              0,
              opentxs::UnitType::Tnbsv,
              Bip44Type::TESTNET,
@@ -1104,9 +1148,10 @@ auto Chains() noexcept -> const ChainData&
          }},
         {blockchain::Type::eCash,
          {
-             true,
-             false,
-             false,
+             Data::SUPPORTED,
+             Data::FULL_SYNC_SUPPORTED,
+             Data::MAINNET,
+             Data::SEGWIT_NOT_SUPPORTED,
              0,
              opentxs::UnitType::Xec,
              Bip44Type::ECASH,
@@ -1150,9 +1195,10 @@ auto Chains() noexcept -> const ChainData&
          }},
         {blockchain::Type::eCash_testnet3,
          {
-             true,
-             true,
-             false,
+             Data::SUPPORTED,
+             Data::FULL_SYNC_SUPPORTED,
+             Data::TESTNET,
+             Data::SEGWIT_NOT_SUPPORTED,
              0,
              opentxs::UnitType::TnXec,
              Bip44Type::TESTNET,
@@ -1195,9 +1241,10 @@ auto Chains() noexcept -> const ChainData&
          }},
         {blockchain::Type::UnitTest,
          {
-             false,
-             true,
-             false,
+             Data::NOT_SUPPORTED,
+             Data::FULL_SYNC_SUPPORTED,
+             Data::TESTNET,
+             Data::SEGWIT_NOT_SUPPORTED,
              0,
              opentxs::UnitType::Regtest,
              Bip44Type::TESTNET,

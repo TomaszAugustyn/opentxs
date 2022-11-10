@@ -82,6 +82,8 @@ OPENTXS_EXPORT auto ScriptHashSegwit(
     const ReadView input,
     const AllocateOutput output) noexcept -> bool;
 OPENTXS_EXPORT auto SupportedChains() noexcept -> const UnallocatedSet<Type>&;
+OPENTXS_EXPORT auto SupportedChainsNoSync() noexcept -> const UnallocatedSet<Type>&;
+OPENTXS_EXPORT auto SupportedChainsFullSync() noexcept -> const UnallocatedSet<Type>&;
 OPENTXS_EXPORT auto TickerSymbol(const Type type) noexcept
     -> UnallocatedCString;
 OPENTXS_EXPORT auto TransactionHash(

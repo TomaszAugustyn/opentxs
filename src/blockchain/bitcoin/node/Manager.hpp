@@ -76,4 +76,28 @@ public:
 private:
     using ot_super = node::implementation::Base;
 };
+
+class NoSyncSupport final : public node::implementation::Base
+{
+public:
+    auto instantiate_header(const ReadView payload) const noexcept
+        -> std::unique_ptr<block::Header> final;
+
+    NoSyncSupport(
+        const api::Session& api,
+        const Type type,
+        const internal::Config& config,
+        const UnallocatedCString& seednode,
+        const UnallocatedCString& syncEndpoint);
+    NoSyncSupport() = delete;
+    NoSyncSupport(const NoSyncSupport&) = delete;
+    NoSyncSupport(NoSyncSupport&&) = delete;
+    auto operator=(const NoSyncSupport&) -> NoSyncSupport& = delete;
+    auto operator=(NoSyncSupport&&) -> NoSyncSupport& = delete;
+
+    ~NoSyncSupport() final;
+
+private:
+    using ot_super = node::implementation::Base;
+};
 }  // namespace opentxs::blockchain::node::base

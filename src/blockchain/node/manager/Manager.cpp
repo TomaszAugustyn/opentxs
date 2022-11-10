@@ -50,6 +50,7 @@
 #include "opentxs/api/session/Factory.hpp"
 #include "opentxs/api/session/Session.hpp"
 #include "opentxs/api/session/Wallet.hpp"
+#include "opentxs/blockchain/Blockchain.hpp"
 #include "opentxs/blockchain/bitcoin/block/Block.hpp"
 #include "opentxs/blockchain/bitcoin/block/Output.hpp"  // IWYU pragma: keep
 #include "opentxs/blockchain/bitcoin/block/Transaction.hpp"
@@ -377,6 +378,10 @@ Base::Base(
     OT_ASSERT(peer_p_);
     OT_ASSERT(wallet_p_);
 
+    if (opentxs::blockchain::SupportedChainsNoSync().count(chain_)) {
+        LogConsole()(OT_PRETTY_CLASS())("CSPR/ETH chains not supported natively yet").Flush();
+        return;
+    }
     header_.Internal().Init();
     init_executor({UnallocatedCString{
         api_.Endpoints().Internal().BlockchainFilterUpdated(chain_)}});
@@ -601,6 +606,10 @@ auto Base::GetVerifiedPeerCount() const noexcept -> std::size_t
 
 auto Base::init() noexcept -> void
 {
+    if (opentxs::blockchain::SupportedChainsNoSync().count(chain_)) {
+        LogConsole()(OT_PRETTY_CLASS())("CSPR/ETH chains not supported natively yet").Flush();
+        return;
+    }
     allow_command_processing();
     local_chain_height_.store(header_.BestChain().height_);
 
@@ -753,6 +762,9 @@ auto Base::pipeline(zmq::Message&& in) -> void
         case ManagerJobs::StartWallet: {
             tdiag("pipeline init");
             wallet_.Init();
+        } break;
+        case ManagerJobs::StopWallet: {
+            wallet_.Shutdown();
         } break;
         case ManagerJobs::FilterUpdate: {
             tdiag("pipeline FilterUpdate");
@@ -1189,19 +1201,23 @@ auto Base::shutdown(std::promise<void>& promise) noexcept -> void
     if (auto previous = running_.exchange(false); previous) {
         init_.get();
         pipeline_.Close();
-        shutdown_sender_.Activate();
         wallet_.Shutdown();
 
-        if (sync_server_) { sync_server_->Shutdown(); }
+        if (opentxs::blockchain::SupportedChainsNoSync().count(chain_)) {
+            LogConsole()(OT_PRETTY_CLASS())("CSPR/ETH chains not supported natively yet").Flush();
+        } else {
+            if (sync_server_) { sync_server_->Shutdown(); }
 
-        if (p2p_requestor_) {
-            tdiag("about to send Shutdown");
-            sync_socket_->Send(MakeWork(WorkType::Shutdown));
+            if (p2p_requestor_) {
+                tdiag("about to send Shutdown");
+                sync_socket_->Send(MakeWork(WorkType::Shutdown));
+            }
+
+            peer_.Shutdown();
+            filters_.Shutdown();
+            block_.Shutdown();
         }
 
-        peer_.Shutdown();
-        filters_.Shutdown();
-        block_.Shutdown();
         shutdown_sender_.Close();
         promise.set_value();
     }
@@ -1217,14 +1233,17 @@ auto Base::shut_down() noexcept -> void
     close_pipeline();
     shutdown_sender_.Activate();
     wallet_.Shutdown();
+    if (opentxs::blockchain::SupportedChainsNoSync().count(chain_)) {
+        LogConsole()(OT_PRETTY_CLASS())("CSPR/ETH chains not supported natively yet").Flush();
+    } else {
+        if (sync_server_) { sync_server_->Shutdown(); }
+        if (p2p_requestor_) { sync_socket_->Send(MakeWork(WorkType::Shutdown)); }
 
-    if (sync_server_) { sync_server_->Shutdown(); }
-    if (p2p_requestor_) { sync_socket_->Send(MakeWork(WorkType::Shutdown)); }
-
-    heartbeat_.Cancel();
-    peer_.Shutdown();
-    filters_.Shutdown();
-    block_.Shutdown();
+        heartbeat_.Cancel();
+        peer_.Shutdown();
+        filters_.Shutdown();
+        block_.Shutdown();
+    }
     shutdown_sender_.Close();
     // TODO MT-34 investigate what other actions might be needed
 }
@@ -1237,6 +1256,11 @@ auto Base::last_job_str() const noexcept -> std::string
 auto Base::StartWallet() noexcept -> void
 {
     pipeline_.Push(MakeWork(ManagerJobs::StartWallet));
+}
+
+auto Base::StopWallet() noexcept -> void
+{
+    pipeline_.Push(MakeWork(ManagerJobs::StopWallet));
 }
 
 auto Base::state_machine() noexcept -> int

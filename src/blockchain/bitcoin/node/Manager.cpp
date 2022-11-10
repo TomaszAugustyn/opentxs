@@ -30,6 +30,21 @@ auto BlockchainNetworkBitcoin(
     return std::make_unique<ReturnType>(
         api, type, config, seednode, syncEndpoint);
 }
+
+auto BlockchainNetworkNoSyncSupport(
+    const api::Session& api,
+    const blockchain::Type type,
+    const blockchain::node::internal::Config& config,
+    const UnallocatedCString& seednode,
+    const UnallocatedCString& syncEndpoint) noexcept
+    -> std::unique_ptr<blockchain::node::internal::Manager>
+{
+    using ReturnType = blockchain::node::base::NoSyncSupport;
+
+    return std::make_unique<ReturnType>(
+        api, type, config, seednode, syncEndpoint);
+}
+
 }  // namespace opentxs::factory
 
 namespace opentxs::blockchain::node::base
@@ -55,4 +70,27 @@ auto Bitcoin::instantiate_header(const ReadView payload) const noexcept
 }
 
 Bitcoin::~Bitcoin() { Shutdown(); }
+
+NoSyncSupport::NoSyncSupport(
+    const api::Session& api,
+    const Type type,
+    const internal::Config& config,
+    const UnallocatedCString& seednode,
+    const UnallocatedCString& syncEndpoint)
+    : ot_super(api, type, config, seednode, syncEndpoint)
+{
+    LogConsole()(OT_PRETTY_CLASS())("CSPR/ETH chains not supported natively yet").Flush();
+}
+
+auto NoSyncSupport::instantiate_header(const ReadView payload) const noexcept
+    -> std::unique_ptr<block::Header>
+{
+    return nullptr;
+}
+
+NoSyncSupport::~NoSyncSupport()
+{
+    LogConsole()(OT_PRETTY_CLASS())("CSPR/ETH chains not supported natively yet").Flush();
+}
+
 }  // namespace opentxs::blockchain::node::base

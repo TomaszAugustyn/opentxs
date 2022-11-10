@@ -100,6 +100,7 @@ enum class ManagerJobs : OTZMQWorkType {
     SendToAddress = OT_ZMQ_INTERNAL_SIGNAL + 4,
     SendToPaymentCode = OT_ZMQ_INTERNAL_SIGNAL + 5,
     StartWallet = OT_ZMQ_INTERNAL_SIGNAL + 6,
+    StopWallet = OT_ZMQ_INTERNAL_SIGNAL + 7,
     FilterUpdate = OT_ZMQ_NEW_FILTER_SIGNAL,
     StateMachine = OT_ZMQ_STATE_MACHINE_SIGNAL,
 };
