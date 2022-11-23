@@ -6,12 +6,12 @@
 namespace opentxs::api::crypto::eliptic_curve
 {
 
-std::string_view get_pubkey_prefix(
-    std::string_view pubkey_sv,
+std::string_view get_prefix(
+    std::string_view data_sv,
     std::size_t const prefix_size)
 {
     static constexpr auto not_correct_result{"O_o"};
-    return pubkey_sv.size() > prefix_size ? pubkey_sv.substr(0U, prefix_size)
+    return data_sv.size() > prefix_size ? data_sv.substr(0U, prefix_size)
                                         : not_correct_result;
 }
 

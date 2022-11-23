@@ -32,7 +32,7 @@ bool is_odd(T value)
     return !is_even(value);
 }
 
-std::string_view get_pubkey_prefix(
-    std::string_view pubkey_sv,
+std::string_view get_prefix(
+    std::string_view data_sv,
     std::size_t const prefix_size);
 }  // namespace opentxs::api::crypto::eliptic_curve
