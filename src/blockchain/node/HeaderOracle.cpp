@@ -61,7 +61,7 @@ HeaderOracle::HeaderOracle(
     , lock_()
 {
     if (opentxs::blockchain::SupportedChainsNoSync().count(chain_)) {
-        LogConsole()(OT_PRETTY_CLASS())("CSPR/ETH chains not supported natively yet").Flush();
+        LogVerbose()(OT_PRETTY_CLASS())("CSPR/ETH chains not supported natively yet").Flush();
     } else {
         auto lock = Lock{lock_};
         const auto best = best_chain(lock);
@@ -314,7 +314,7 @@ auto HeaderOracle::best_chain(const Lock& lock) const noexcept
     -> block::Position
 {
     if (opentxs::blockchain::SupportedChainsNoSync().count(chain_)) {
-        LogConsole()(OT_PRETTY_CLASS())("CSPR/ETH chains not supported natively yet").Flush();
+        LogVerbose()(OT_PRETTY_CLASS())("CSPR/ETH chains not supported natively yet").Flush();
         return {};
     }
     return database_.CurrentBest()->Position();

@@ -59,7 +59,7 @@ Headers::Headers(
     , lock_()
 {
     if (opentxs::blockchain::SupportedChainsNoSync().count(type)) {
-        LogConsole()(OT_PRETTY_CLASS())("CSPR/ETH chains not supported natively yet").Flush();
+        LogVerbose()(OT_PRETTY_CLASS())("CSPR/ETH chains not supported natively yet").Flush();
     } else {
         import_genesis(type);
 

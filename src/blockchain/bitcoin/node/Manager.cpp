@@ -79,7 +79,7 @@ NoSyncSupport::NoSyncSupport(
     const UnallocatedCString& syncEndpoint)
     : ot_super(api, type, config, seednode, syncEndpoint)
 {
-    LogConsole()(OT_PRETTY_CLASS())("CSPR/ETH chains not supported natively yet").Flush();
+    LogVerbose()(OT_PRETTY_CLASS())("CSPR/ETH chains not supported natively yet").Flush();
 }
 
 auto NoSyncSupport::instantiate_header(const ReadView payload) const noexcept
@@ -90,7 +90,7 @@ auto NoSyncSupport::instantiate_header(const ReadView payload) const noexcept
 
 NoSyncSupport::~NoSyncSupport()
 {
-    LogConsole()(OT_PRETTY_CLASS())("CSPR/ETH chains not supported natively yet").Flush();
+    LogVerbose()(OT_PRETTY_CLASS())("CSPR/ETH chains not supported natively yet").Flush();
 }
 
 }  // namespace opentxs::blockchain::node::base

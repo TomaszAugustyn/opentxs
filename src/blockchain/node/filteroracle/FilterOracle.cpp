@@ -221,7 +221,7 @@ FilterOracle::FilterOracle(
 {
     OT_ASSERT(cb_);
     if (opentxs::blockchain::SupportedChainsNoSync().count(chain_)) {
-        LogConsole()(OT_PRETTY_CLASS())("CSPR/ETH chains not supported natively yet").Flush();
+        LogVerbose()(OT_PRETTY_CLASS())("CSPR/ETH chains not supported natively yet").Flush();
     } else {
         compare_tips_to_header_chain();
         compare_tips_to_checkpoint();

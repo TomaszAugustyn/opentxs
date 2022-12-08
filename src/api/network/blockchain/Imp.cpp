@@ -600,7 +600,7 @@ auto BlockchainImp::stop(const Lock& lock, const Chain type) const noexcept
     OT_ASSERT(it->second);
 
     if (opentxs::blockchain::SupportedChainsNoSync().count(type)) {
-        LogConsole()(OT_PRETTY_CLASS())("CSPR/ETH chains not supported natively yet").Flush();
+        LogVerbose()(OT_PRETTY_CLASS())("CSPR/ETH chains not supported natively yet").Flush();
         it->second->StopWallet();
     } else {
         sync_server_.Disable(type);

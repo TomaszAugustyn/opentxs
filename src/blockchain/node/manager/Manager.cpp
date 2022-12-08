@@ -379,7 +379,7 @@ Base::Base(
     OT_ASSERT(wallet_p_);
 
     if (opentxs::blockchain::SupportedChainsNoSync().count(chain_)) {
-        LogConsole()(OT_PRETTY_CLASS())("CSPR/ETH chains not supported natively yet").Flush();
+        LogVerbose()(OT_PRETTY_CLASS())("CSPR/ETH chains not supported natively yet").Flush();
         return;
     }
     header_.Internal().Init();
@@ -607,7 +607,7 @@ auto Base::GetVerifiedPeerCount() const noexcept -> std::size_t
 auto Base::init() noexcept -> void
 {
     if (opentxs::blockchain::SupportedChainsNoSync().count(chain_)) {
-        LogConsole()(OT_PRETTY_CLASS())("CSPR/ETH chains not supported natively yet").Flush();
+        LogVerbose()(OT_PRETTY_CLASS())("CSPR/ETH chains not supported natively yet").Flush();
         return;
     }
     allow_command_processing();
@@ -1204,7 +1204,7 @@ auto Base::shutdown(std::promise<void>& promise) noexcept -> void
         wallet_.Shutdown();
 
         if (opentxs::blockchain::SupportedChainsNoSync().count(chain_)) {
-            LogConsole()(OT_PRETTY_CLASS())("CSPR/ETH chains not supported natively yet").Flush();
+            LogVerbose()(OT_PRETTY_CLASS())("CSPR/ETH chains not supported natively yet").Flush();
         } else {
             if (sync_server_) { sync_server_->Shutdown(); }
 
@@ -1234,7 +1234,7 @@ auto Base::shut_down() noexcept -> void
     shutdown_sender_.Activate();
     wallet_.Shutdown();
     if (opentxs::blockchain::SupportedChainsNoSync().count(chain_)) {
-        LogConsole()(OT_PRETTY_CLASS())("CSPR/ETH chains not supported natively yet").Flush();
+        LogVerbose()(OT_PRETTY_CLASS())("CSPR/ETH chains not supported natively yet").Flush();
     } else {
         if (sync_server_) { sync_server_->Shutdown(); }
         if (p2p_requestor_) { sync_socket_->Send(MakeWork(WorkType::Shutdown)); }

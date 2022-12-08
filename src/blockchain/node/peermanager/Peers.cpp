@@ -616,7 +616,7 @@ auto PeerManager::Peers::Run() noexcept -> int
 
     if (ticket || invalid_peer_) { return -1; }
     if (opentxs::blockchain::SupportedChainsNoSync().count(chain_)) {
-        LogConsole()(OT_PRETTY_CLASS())("CSPR/ETH chains not supported natively yet").Flush();
+        LogVerbose()(OT_PRETTY_CLASS())("CSPR/ETH chains not supported natively yet").Flush();
         return false;
     }
     const auto target = minimum_peers_.load();
