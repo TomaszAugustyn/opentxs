@@ -263,6 +263,7 @@ public:
         return signal_shutdown();
     }
     auto StartWallet() noexcept -> void final;
+    auto StopWallet() noexcept -> void final;
     auto Wallet() const noexcept -> const node::Wallet& final;
 
     Base() = delete;

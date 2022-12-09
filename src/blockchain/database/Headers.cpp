@@ -29,6 +29,7 @@
 #include "internal/util/TSV.hpp"
 #include "opentxs/api/session/Factory.hpp"
 #include "opentxs/api/session/Session.hpp"
+#include "opentxs/blockchain/Blockchain.hpp"
 #include "opentxs/blockchain/Types.hpp"
 #include "opentxs/blockchain/bitcoin/block/Header.hpp"
 #include "opentxs/blockchain/block/Header.hpp"
@@ -57,20 +58,24 @@ Headers::Headers(
     , lmdb_(lmdb)
     , lock_()
 {
-    import_genesis(type);
+    if (opentxs::blockchain::SupportedChainsNoSync().count(type)) {
+        LogVerbose()(OT_PRETTY_CLASS())("CSPR/ETH chains not supported natively yet").Flush();
+    } else {
+        import_genesis(type);
 
-    {
-        const auto best = this->best();
+        {
+            const auto best = this->best();
 
-        OT_ASSERT(HeaderExists(best.hash_));
-        OT_ASSERT(0 <= best.height_);
-    }
+            OT_ASSERT(HeaderExists(best.hash_));
+            OT_ASSERT(0 <= best.height_);
+        }
 
-    {
-        const auto header = CurrentBest();
+        {
+            const auto header = CurrentBest();
 
-        OT_ASSERT(header);
-        OT_ASSERT(0 <= header->Position().height_);
+            OT_ASSERT(header);
+            OT_ASSERT(0 <= header->Position().height_);
+        }
     }
 }
 

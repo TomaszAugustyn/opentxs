@@ -513,9 +513,10 @@ auto BlockchainImp::start(
 
     namespace p2p = opentxs::blockchain::p2p;
 
+    auto endpoint = UnallocatedCString{};
+
     switch (opentxs::blockchain::params::Chains().at(type).p2p_protocol_) {
         case p2p::Protocol::bitcoin: {
-            auto endpoint = UnallocatedCString{};
             if (!base_config_)
                 throw std::runtime_error("Base config not initialized!");
 
@@ -538,9 +539,22 @@ auto BlockchainImp::start(
 
             return node.Connect();
         }
-        case p2p::Protocol::opentxs:
         case p2p::Protocol::ethereum:
-        case p2p::Protocol::casper:
+        case p2p::Protocol::casper: {
+            const auto& config =
+                config_.try_emplace(type, *base_config_).first->second;
+            auto [iter, added] = networks_.emplace(
+                type,
+                factory::BlockchainNetworkNoSyncSupport(
+                    api_, type, config, seednode, endpoint));
+            LogConsole()(print(type))(" client is running").Flush();
+            auto& node = *(iter->second);
+            node.StartWallet();
+            node.Connect();
+            return true;
+        }
+
+        case p2p::Protocol::opentxs:
         default: {
         }
     }
@@ -585,8 +599,13 @@ auto BlockchainImp::stop(const Lock& lock, const Chain type) const noexcept
 
     OT_ASSERT(it->second);
 
-    sync_server_.Disable(type);
-    it->second->Shutdown().get();
+    if (opentxs::blockchain::SupportedChainsNoSync().count(type)) {
+        LogVerbose()(OT_PRETTY_CLASS())("CSPR/ETH chains not supported natively yet").Flush();
+        it->second->StopWallet();
+    } else {
+        sync_server_.Disable(type);
+        it->second->Shutdown().get();
+    }
     networks_.erase(it);
     LogVerbose()(OT_PRETTY_CLASS())("stopped chain ")(print(type)).Flush();
     publish_chain_state(type, false);

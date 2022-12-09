@@ -1244,7 +1244,11 @@ auto Blockchain::Imp::PubkeyHash(
             {opentxs::blockchain::Type::eCash_testnet3,
              opentxs::crypto::HashType::Bitcoin},
             {opentxs::blockchain::Type::UnitTest,
-             opentxs::crypto::HashType::Bitcoin}};
+             opentxs::crypto::HashType::Bitcoin},
+            {opentxs::blockchain::Type::Casper,
+             opentxs::crypto::HashType::Blake2b256},
+            {opentxs::blockchain::Type::Casper_testnet,
+             opentxs::crypto::HashType::Blake2b256}};
 
     auto hash_type = chainToHashTypeMap.at(chain);
     if (hash_type == opentxs::crypto::HashType::Error) {

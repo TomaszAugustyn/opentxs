@@ -53,7 +53,17 @@ struct Data {
     using ScriptMap = boost::container::flat_map<Style, bool>;
     using StylePref = UnallocatedVector<std::pair<Style, std::string_view>>;
 
+    inline static const bool SUPPORTED = true;
+    inline static const bool FULL_SYNC_SUPPORTED = true;
+    inline static const bool TESTNET = true;
+    inline static const bool SEGWIT_SUPPORTED = true;
+    inline static const bool NOT_SUPPORTED = false;
+    inline static const bool FULL_SYNC_NOT_SUPPORTED = false;
+    inline static const bool MAINNET = false;
+    inline static const bool SEGWIT_NOT_SUPPORTED = false;
+
     bool supported_{};
+    bool full_sync_support_{};
     bool testnet_{};
     bool segwit_{};
     unsigned segwit_scale_factor_{};

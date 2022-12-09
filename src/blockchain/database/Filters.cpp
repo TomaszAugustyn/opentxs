@@ -19,6 +19,7 @@
 #include "internal/util/LogMacros.hpp"
 #include "opentxs/api/session/Factory.hpp"
 #include "opentxs/api/session/Session.hpp"
+#include "opentxs/blockchain/Blockchain.hpp"
 #include "opentxs/blockchain/bitcoin/cfilter/GCS.hpp"
 #include "opentxs/blockchain/bitcoin/cfilter/Hash.hpp"
 #include "opentxs/blockchain/bitcoin/cfilter/Header.hpp"
@@ -40,7 +41,11 @@ Filters::Filters(
     , blank_position_(make_blank<block::Position>::value(api))
     , lock_()
 {
-    import_genesis(chain);
+    if (opentxs::blockchain::SupportedChainsNoSync().count(chain)) {
+        LogVerbose()(OT_PRETTY_CLASS())("CSPR/ETH chains not supported natively yet").Flush();
+    } else {
+        import_genesis(chain);
+    }
 }
 
 auto Filters::CurrentHeaderTip(const cfilter::Type type) const noexcept

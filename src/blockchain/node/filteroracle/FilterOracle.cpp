@@ -39,6 +39,7 @@
 #include "opentxs/api/session/Endpoints.hpp"
 #include "opentxs/api/session/Factory.hpp"
 #include "opentxs/api/session/Session.hpp"
+#include "opentxs/blockchain/Blockchain.hpp"
 #include "opentxs/blockchain/Types.hpp"
 #include "opentxs/blockchain/bitcoin/block/Block.hpp"
 #include "opentxs/blockchain/bitcoin/cfilter/FilterType.hpp"
@@ -219,9 +220,12 @@ FilterOracle::FilterOracle(
     , running_(true)
 {
     OT_ASSERT(cb_);
-
-    compare_tips_to_header_chain();
-    compare_tips_to_checkpoint();
+    if (opentxs::blockchain::SupportedChainsNoSync().count(chain_)) {
+        LogVerbose()(OT_PRETTY_CLASS())("CSPR/ETH chains not supported natively yet").Flush();
+    } else {
+        compare_tips_to_header_chain();
+        compare_tips_to_checkpoint();
+    }
 }
 
 auto FilterOracle::compare_header_to_checkpoint(

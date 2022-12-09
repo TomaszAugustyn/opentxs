@@ -148,16 +148,48 @@ auto GetDefinition(UnitType in) noexcept -> const Definition&
         {UnitType::Tnbch,
          {u8"tnBCH",
           {
-              {u8"BCH", {"", u8"tBCH", {{10, 8}}, 0, 8}},
-              {u8"mBCH", {"", u8"mBCH", {{10, 5}}, 0, 5}},
-              {u8"bits", {"", u8"bits", {{10, 2}}, 0, 2}},
-              {u8"μBCH", {"", u8"μBCH", {{10, 2}}, 0, 2}},
+              {u8"BCH", {"", u8"tBCH", {{10, 18}}, 0, 18}},
+              {u8"mBCH", {"", u8"mBCH", {{10, 15}}, 0, 15}},
+              {u8"bits", {"", u8"bits", {{10, 9}}, 0, 9}},
+              {u8"μBCH", {"", u8"μBCH", {{10, 13}}, 0, 13}},
               {u8"satoshi", {"", u8"satoshis", {{10, 0}}, 0, 0}},
           }}},
-        {UnitType::Eth, {}},               // TODO
-        {UnitType::Ethereum_ropsten, {}},  // TODO
-        {UnitType::Cspr, {}},              // TODO
-        {UnitType::TnCspr, {}},            // TODO
+        {UnitType::Eth,
+         {u8"ETH",
+          {
+              {u8"ETH", {"", u8"ETH", {{10, 18}}, 0, 18}},
+              {u8"mETH", {"", u8"mETH", {{10, 15}}, 0, 15}},
+              {u8"GWei", {"", u8"GWeis", {{10, 9}}, 0, 9}},
+              {u8"μETH", {"", u8"μETH", {{10, 13}}, 0, 13}},
+              {u8"Wei", {"", u8"Weis", {{10, 0}}, 0, 0}},
+          }}},
+        {UnitType::Ethereum_ropsten,
+         {u8"tnETH",
+          {
+              {u8"tETH", {"", u8"tETH", {{10, 8}}, 0, 8}},
+              {u8"mtETH", {"", u8"mtETH", {{10, 5}}, 0, 5}},
+              {u8"GtWei", {"", u8"GtWeis", {{10, 2}}, 0, 2}},
+              {u8"μtETH", {"", u8"μtETH", {{10, 2}}, 0, 2}},
+              {u8"Gtwei", {"", u8"Gtweis", {{10, 0}}, 0, 0}},
+          }}},
+        {UnitType::Cspr,
+         {u8"CSPR",
+          {
+              {u8"CSPR", {"", u8"CSPR", {{10, 9}}, 0, 9}},
+              {u8"mCSPR", {"", u8"mCSPR", {{10, 6}}, 0, 6}},
+              {u8"kmotes", {"", u8"kmotes", {{10, 3}}, 0, 3}},
+              {u8"μCSPR", {"", u8"μCSPR", {{10, 3}}, 0, 3}},
+              {u8"motes", {"", u8"motes", {{10, 0}}, 0, 0}},
+          }}},
+        {UnitType::TnCspr,
+         {u8"tnCSPR",
+          {
+              {u8"tCSPR", {"", u8"tCSPR", {{10, 9}}, 0, 9}},
+              {u8"mtCSPR", {"", u8"mtCSPR", {{10, 6}}, 0, 6}},
+              {u8"ktmotes", {"", u8"ktmotes", {{10, 3}}, 0, 3}},
+              {u8"μtCSPR", {"", u8"μtCSPR", {{10, 3}}, 0, 3}},
+              {u8"tmotes", {"", u8"tmotes", {{10, 0}}, 0, 0}},
+          }}},
         {UnitType::Ltc,
          {u8"LTC",
           {

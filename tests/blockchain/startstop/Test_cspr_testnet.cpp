@@ -13,10 +13,10 @@ namespace ottest
 {
 TEST_F(Test_StartStop, init_opentxs) {}
 
-TEST_F(Test_StartStop, frontier)
+TEST_F(Test_StartStop, cspr_testnet)
 {
     EXPECT_TRUE(api_.Network().Blockchain().Start(
-        b::Type::Ethereum_frontier, "127.0.0.2"));
-    EXPECT_TRUE(api_.Network().Blockchain().Stop(b::Type::Ethereum_frontier));
+        b::Type::Casper_testnet, "127.0.0.2"));
+    EXPECT_TRUE(api_.Network().Blockchain().Stop(b::Type::Casper_testnet));
 }
 }  // namespace ottest

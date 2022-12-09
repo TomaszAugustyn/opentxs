@@ -45,6 +45,7 @@
 #include "opentxs/util/Log.hpp"
 #include "opentxs/util/Pimpl.hpp"
 #include "util/tuning.hpp"
+#include "opentxs/blockchain/Blockchain.hpp"
 
 namespace zmq = opentxs::network::zeromq;
 
@@ -109,7 +110,6 @@ auto AccountList::load_blockchain_account(OTIdentifier&& id) noexcept -> void
 
     OT_ASSERT(blockchain::Type::Unknown != chain);
     OT_ASSERT(owner == primary_id_);
-
     load_blockchain_account(std::move(id), chain);
 }
 
@@ -139,6 +139,10 @@ auto AccountList::load_blockchain_account(
 {
     LogInsane()(OT_PRETTY_CLASS())("processing blockchain account ")(id)
         .Flush();
+    if (0 == opentxs::blockchain::SupportedChainsFullSync().count(chain)) {
+        LogVerbose()(OT_PRETTY_CLASS())("CSPR/ETH chains not supported natively yet").Flush();
+        return;
+    }
     const auto type = BlockchainToUnit(chain);
     const auto& api = Widget::api_;
     const auto index = AccountListSortKey{type, account_name_blockchain(chain)};
